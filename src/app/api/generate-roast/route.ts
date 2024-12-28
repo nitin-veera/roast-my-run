@@ -7,12 +7,10 @@ const openai = new OpenAI({
 
 export async function POST(req: Request) {
   try {
-    const { distance, elevation, duration } = await req.json();
+    const { distance, duration } = await req.json();
 
     const prompt = `As a sarcastic running coach, create a funny but motivating roast about this run:
     - Distance: ${distance} km
-    - Elevation Gain: ${elevation.gain}m
-    - Elevation Loss: ${elevation.loss}m
     ${duration ? `- Duration: ${duration}` : ''}
     
     Keep the response under 100 words and make it humorous but not mean-spirited.`;

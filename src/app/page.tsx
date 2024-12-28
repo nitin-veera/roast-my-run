@@ -58,9 +58,6 @@ export default function Home() {
       <div className="w-1/3 h-screen overflow-y-auto flex flex-col">
         <header className="bg-gradient-to-r from-orange-500 to-pink-500 text-white py-6 px-6">
           <h1 className="text-3xl font-bold mb-2">Roast My Run</h1>
-          <p className="text-sm opacity-90">
-            Plot your route, get roasted by AI. Because every run deserves a reality check.
-          </p>
         </header>
 
         <main className="flex-1 p-6 space-y-6">
