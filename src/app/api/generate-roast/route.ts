@@ -1,33 +1,37 @@
-import { OpenAI } from 'openai';
 import { NextResponse } from 'next/server';
+import OpenAI from 'openai';
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY
 });
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const { distance, duration } = await req.json();
+    const { distance, unit, duration } = await request.json();
 
-    const prompt = `As a sarcastic running coach, create a funny but motivating roast about this run:
-    - Distance: ${distance} km
-    ${duration ? `- Duration: ${duration}` : ''}
-    
-    Keep the response under 100 words and make it humorous but not mean-spirited.`;
+    const promptContent = duration
+      ? `Roast my running route that is ${distance} ${unit} long and took ${duration} to complete.`
+      : `Roast my running route that is ${distance} ${unit} long.`;
 
     const completion = await openai.chat.completions.create({
-      messages: [{ role: "user", content: prompt }],
       model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content: "You are a sarcastic running coach who likes to playfully roast runners about their routes. Keep responses under 100 words and make them funny but not mean-spirited."
+        },
+        {
+          role: "user",
+          content: promptContent
+        }
+      ],
       temperature: 0.8,
       max_tokens: 150,
     });
 
     return NextResponse.json({ roast: completion.choices[0].message.content });
   } catch (error) {
-    console.error('Error generating roast:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate roast' },
-      { status: 500 }
-    );
+    console.error('Error:', error);
+    return NextResponse.json({ error: 'Failed to generate roast' }, { status: 500 });
   }
-} 
+}
