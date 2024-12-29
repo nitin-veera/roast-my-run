@@ -67,9 +67,12 @@ export default function Home() {
         <div className="w-full flex flex-col">
           <header className="pt-4 md:pt-8 px-4 md:px-8 relative overflow-hidden">
             <div className="relative">
-              <h1 className="text-3xl md:text-4xl font-bold mb-3 text-white tracking-tight">
+              <h1 className="text-3xl md:text-4xl font-bold mb-1 text-white tracking-tight">
                 Roast My Run
               </h1>
+              <p className="text-gray-400 text-sm md:text-base mb-3">
+                for runners that need humbling
+              </p>
             </div>
           </header>
 
