@@ -1,14 +1,18 @@
 declare module '@turf/turf' {
-    export function length(line: any, options?: {
-        units?: string;
-    }): number;
-    
-    export function lineString(coordinates: number[][]): {
+    interface LineStringFeature {
         type: 'Feature';
         geometry: {
             type: 'LineString';
             coordinates: number[][];
         };
-        properties: {};
-    };
+        properties: Record<string, unknown>;
+    }
+
+    interface LengthOptions {
+        units?: 'kilometers' | 'miles' | 'degrees';
+    }
+
+    export function length(line: LineStringFeature, options?: LengthOptions): number;
+    
+    export function lineString(coordinates: number[][]): LineStringFeature;
 } 
