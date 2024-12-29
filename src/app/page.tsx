@@ -65,7 +65,7 @@ export default function Home() {
       {/* Scrollable Content Container */}
       <div className="absolute w-full md:w-1/3 h-[40vh] md:h-screen top-[60vh] md:top-0 md:right-0 overflow-y-auto">
         <div className="w-full flex flex-col">
-          <header className="py-4 md:py-8 px-4 md:px-8 relative overflow-hidden">
+          <header className="pt-4 md:pt-8 px-4 md:px-8 relative overflow-hidden">
             <div className="relative">
               <h1 className="text-3xl md:text-4xl font-bold mb-3 text-white tracking-tight">
                 Roast My Run

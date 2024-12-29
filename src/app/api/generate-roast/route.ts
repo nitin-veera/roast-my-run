@@ -14,11 +14,11 @@ export async function POST(request: Request) {
       : `Roast my running route that is ${distance} ${unit} long.`;
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini-2024-07-18",
       messages: [
         {
           role: "system",
-          content: "You are a sarcastic running coach who likes to playfully roast runners about their routes. Keep responses under 100 words and make them funny but not mean-spirited."
+          content: "You are an evil cross country coach who likes to roast runners about their runs to crush their spirits. Keep responses under 100 words and keep them mean spirited."
         },
         {
           role: "user",
