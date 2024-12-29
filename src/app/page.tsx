@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Map from '@/components/Map';
 
 interface RouteMetrics {
@@ -15,6 +15,8 @@ export default function Home() {
   const [hours, setHours] = useState<string>('');
   const [minutes, setMinutes] = useState<string>('');
   const [seconds, setSeconds] = useState<string>('');
+
+  const roastRef = useRef<HTMLDivElement>(null);
 
   const generateRoast = async () => {
     if (!metrics) return;
@@ -47,6 +49,14 @@ export default function Home() {
 
       const data = await response.json();
       setRoast(data.roast);
+      
+      setTimeout(() => {
+        roastRef.current?.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }, 100);
+
     } catch (error) {
       console.error('Error generating roast:', error);
     } finally {
@@ -176,9 +186,12 @@ export default function Home() {
 
             {/* Roast Display */}
             {roast && (
-              <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100
-                            transform transition-all duration-500 hover:shadow-xl
-                            animate-fade-in-up">
+              <div 
+                ref={roastRef}
+                className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100
+                          transform transition-all duration-500 hover:shadow-xl
+                          animate-fade-in-up"
+              >
                 <h2 className="text-2xl font-semibold mb-4 text-gray-800">Your Roast</h2>
                 <p className="text-gray-600 italic text-lg leading-relaxed">{roast}</p>
               </div>
