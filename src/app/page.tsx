@@ -85,7 +85,7 @@ export default function Home() {
 
   return (
     <div className="relative h-[100dvh] bg-zinc-800" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
-      <div className="absolute top-0 w-full md:w-2/3 h-[50dvh] md:h-screen z-10" 
+      <div className="absolute top-0 w-full md:w-2/3 h-[50dvh] md:h-screen z-10 px-2 md:px-0" 
            style={{ marginTop: 'calc(-1 * env(safe-area-inset-top))' }}>
         <Map 
           onMetricsChange={setMetrics} 
