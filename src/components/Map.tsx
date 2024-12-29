@@ -175,7 +175,7 @@ export default function Map({ onMetricsChange, onClearRoute }: MapProps) {
   }, [calculateRouteMetrics]);
 
   return (
-    <div className="relative w-full h-full overflow-hidden md:rounded-r-3xl rounded-b-3xl">
+    <div className="relative w-full h-full overflow-hidden rounded-3xl md:rounded-r-3xl">
       <div ref={mapContainer} className="w-full h-full" />
       
       {metrics && (
