@@ -85,7 +85,18 @@ export default function Home() {
 
   return (
     <div className="relative h-[100dvh] bg-zinc-800" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
-      <div className="absolute top-0 w-full md:w-2/3 h-[50dvh] md:h-screen z-10" 
+      {/* Mobile header section - takes up space and pushes map down */}
+      <div className="md:hidden h-[15dvh] bg-zinc-800 px-4 flex flex-col justify-center">
+        <h1 className="text-3xl font-bold mb-1 text-white tracking-tight">
+          Roast My Run
+        </h1>
+        <p className="text-gray-400 text-sm">
+          for runners that need humbling
+        </p>
+      </div>
+
+      {/* Adjust map height to account for header */}
+      <div className="absolute w-full md:w-2/3 h-[42.5dvh] md:h-screen top-[15dvh] md:top-0 z-10" 
            style={{ marginTop: 'calc(-1 * env(safe-area-inset-top))' }}>
         <Map 
           onMetricsChange={setMetrics} 
@@ -93,15 +104,17 @@ export default function Home() {
         />
       </div>
 
-      <div className="fixed md:absolute w-full md:w-1/3 h-[50dvh] md:h-screen top-[50dvh] md:top-0 md:right-0 
+      {/* Adjust content position to account for new header height */}
+      <div className="fixed md:absolute w-full md:w-1/3 h-[42.5dvh] md:h-screen top-[57.5dvh] md:top-0 md:right-0 
                       overflow-y-auto overscroll-contain z-0 bg-zinc-800">
         <div className="w-full flex flex-col">
-          <header className="pt-4 md:pt-8 px-4 md:px-8 relative overflow-hidden">
+          {/* Desktop header - hidden on mobile */}
+          <header className="hidden md:block pt-8 px-8">
             <div className="relative">
-              <h1 className="text-3xl md:text-4xl font-bold mb-1 text-white tracking-tight">
+              <h1 className="text-4xl font-bold mb-1 text-white tracking-tight">
                 Roast My Run
               </h1>
-              <p className="text-gray-400 text-sm md:text-base mb-3">
+              <p className="text-gray-400 text-base mb-3">
                 for runners that need humbling
               </p>
             </div>
