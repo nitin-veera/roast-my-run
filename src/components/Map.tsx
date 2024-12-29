@@ -17,6 +17,20 @@ interface RouteMetrics {
   distance: number;
 }
 
+interface DrawFeature {
+  type: 'Feature';
+  geometry: {
+    type: 'LineString';
+    coordinates: number[][];
+  };
+  properties: Record<string, unknown>;
+}
+
+interface DrawFeatureCollection {
+  type: 'FeatureCollection';
+  features: DrawFeature[];
+}
+
 const drawStyles = [
   // Style when drawing
   {
@@ -51,7 +65,8 @@ export default function Map({ onMetricsChange }: MapProps) {
   const [metrics, setMetrics] = useState<RouteMetrics | null>(null);
 
   const calculateRouteMetrics = useCallback(() => {
-    const data = draw.current?.getAll();
+    const data = draw.current?.getAll() as DrawFeatureCollection | undefined;
+    
     if (data?.features.length && data.features[0].geometry.coordinates.length > 0) {
       try {
         if (data.features[0].geometry.coordinates.length === 1) {
@@ -62,8 +77,8 @@ export default function Map({ onMetricsChange }: MapProps) {
         }
 
         const line = turf.lineString(data.features[0].geometry.coordinates);
-        const length = turf.length(line, { units: 'kilometers' });
-        const newMetrics = { distance: Math.round(length * 100) / 100 };
+        const distance = turf.length(line, { units: 'kilometers' });
+        const newMetrics = { distance };
         setMetrics(newMetrics);
         onMetricsChange(newMetrics);
       } catch (error) {
