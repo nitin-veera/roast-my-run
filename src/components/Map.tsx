@@ -78,7 +78,7 @@ export default function Map({ onMetricsChange }: MapProps) {
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/dark-v11',
       center: [-118.439789907, 34.06999972], // UCLA coordinates
-      zoom: 12,
+      zoom: window.innerWidth < 768 ? 10 : 12,
       antialias: true,
       attributionControl: false
     });
@@ -164,11 +164,11 @@ export default function Map({ onMetricsChange }: MapProps) {
   }, [calculateRouteMetrics]);
 
   return (
-    <div className="relative w-full h-full overflow-hidden rounded-r-3xl">
+    <div className="relative w-full h-full overflow-hidden md:rounded-r-3xl rounded-b-3xl">
       <div ref={mapContainer} className="w-full h-full" />
       
       {metrics && (
-        <div className="absolute top-4 left-4 bg-white p-3 rounded-lg shadow-md min-w-[200px]">
+        <div className="absolute top-4 left-4 bg-white p-3 rounded-lg shadow-md min-w-[200px] max-w-[90vw] md:max-w-none">
           <div className="flex justify-between items-center mb-1">
             <h3 className="text-sm text-gray-500 font-semibold">Route Metrics</h3>
             <button
@@ -183,8 +183,8 @@ export default function Map({ onMetricsChange }: MapProps) {
           </div>
           <div className="space-y-2">
             <p className="text-lg text-gray-500">
-              {(metrics.distance * 0.621371).toFixed(2)} miles
-              <span className="text-sm text-gray-400 ml-2">
+              <span className="md:inline block">{(metrics.distance * 0.621371).toFixed(2)} miles</span>
+              <span className="text-sm text-gray-400 md:ml-2 block md:inline">
                 ({metrics.distance.toFixed(2)} km)
               </span>
             </p>
