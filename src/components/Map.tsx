@@ -63,6 +63,14 @@ export default function Map({ onMetricsChange }: MapProps) {
     }
   }, [onMetricsChange]);
 
+  const createHouseElement = () => {
+    const el = document.createElement('div');
+    el.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="#FF5733">
+      <path d="M12 3L4 9v12h16V9l-8-6zm6 16h-3v-6H9v6H6v-9l6-4.5 6 4.5v9z"/>
+    </svg>`;
+    return el;
+  };
+
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
@@ -129,8 +137,18 @@ export default function Map({ onMetricsChange }: MapProps) {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
+          const { longitude, latitude } = position.coords;
+          
+          // Add house marker
+          new mapboxgl.Marker({
+            element: createHouseElement(),
+            anchor: 'bottom'
+          })
+          .setLngLat([longitude, latitude])
+          .addTo(mapInstance);
+
           mapInstance.flyTo({
-            center: [position.coords.longitude, position.coords.latitude],
+            center: [longitude, latitude],
             zoom: 14
           });
         },
