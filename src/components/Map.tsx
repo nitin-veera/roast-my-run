@@ -168,7 +168,7 @@ export default function Map({ onMetricsChange }: MapProps) {
       <div ref={mapContainer} className="w-full h-full" />
       
       {metrics && (
-        <div className="absolute top-4 left-4 bg-white dark:bg-gray-800 p-3 rounded-lg shadow-md min-w-[200px]">
+        <div className="absolute top-4 left-4 bg-white p-3 rounded-lg shadow-md min-w-[200px]">
           <div className="flex justify-between items-center mb-1">
             <h3 className="text-sm text-gray-500 font-semibold">Route Metrics</h3>
             <button
