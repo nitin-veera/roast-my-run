@@ -128,7 +128,9 @@ export default function Home() {
                   <div className="flex gap-2">
                     <div className="flex-1">
                       <input
-                        type="text"
+                        type="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                         placeholder="HH"
                         value={hours}
                         onChange={(e) => handleTimeChange(e.target.value, setHours, 23)}
@@ -141,7 +143,9 @@ export default function Home() {
                     <span className="text-white text-2xl self-center">:</span>
                     <div className="flex-1">
                       <input
-                        type="text"
+                        type="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                         placeholder="MM"
                         value={minutes}
                         onChange={(e) => handleTimeChange(e.target.value, setMinutes, 59)}
@@ -154,7 +158,9 @@ export default function Home() {
                     <span className="text-white text-2xl self-center">:</span>
                     <div className="flex-1">
                       <input
-                        type="text"
+                        type="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
                         placeholder="SS"
                         value={seconds}
                         onChange={(e) => handleTimeChange(e.target.value, setSeconds, 59)}
