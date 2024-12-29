@@ -66,11 +66,18 @@ export default function Home() {
     setDuration(formattedDuration);
   }, [hours, minutes, seconds]);
 
+  const handleClearRoute = () => {
+    setRoast(null);
+  };
+
   return (
     <div className="relative h-screen overflow-hidden bg-zinc-800">
       {/* Fixed Map Container */}
       <div className="fixed w-full md:w-2/3 h-[60vh] md:h-screen">
-        <Map onMetricsChange={setMetrics} />
+        <Map 
+          onMetricsChange={setMetrics} 
+          onClearRoute={handleClearRoute}
+        />
       </div>
 
       {/* Scrollable Content Container */}

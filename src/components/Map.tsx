@@ -11,6 +11,7 @@ mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!;
 
 interface MapProps {
   onMetricsChange: (metrics: RouteMetrics | null) => void;
+  onClearRoute?: () => void;
 }
 
 interface RouteMetrics {
@@ -31,7 +32,7 @@ interface DrawFeatureCollection {
   features: DrawFeature[];
 }
 
-export default function Map({ onMetricsChange }: MapProps) {
+export default function Map({ onMetricsChange, onClearRoute }: MapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const draw = useRef<MapboxDraw | null>(null);
@@ -188,6 +189,7 @@ export default function Map({ onMetricsChange }: MapProps) {
                   draw.current?.deleteAll();
                   draw.current?.changeMode('draw_line_string');
                   calculateRouteMetrics();
+                  onClearRoute?.();
                   setTimeout(() => {
                     isChangingMode.current = false;
                   }, 100);
