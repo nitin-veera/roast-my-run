@@ -17,8 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={'${outfit.className} bg-zinc-800] overflow-hidden overscroll-none'}>{children}</body>
-      <Analytics />
+      <body className={`${outfit.className} bg-zinc-800 overflow-hidden overscroll-none`}>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
