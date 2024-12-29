@@ -38,6 +38,7 @@ export default function Map({ onMetricsChange, onClearRoute }: MapProps) {
   const draw = useRef<MapboxDraw | null>(null);
   const [metrics, setMetrics] = useState<RouteMetrics | null>(null);
   const isChangingMode = useRef(false);
+  const [isLocating, setIsLocating] = useState(false);
 
   const calculateRouteMetrics = useCallback(() => {
     const data = draw.current?.getAll() as DrawFeatureCollection | undefined;
@@ -143,31 +144,38 @@ export default function Map({ onMetricsChange, onClearRoute }: MapProps) {
       mapInstance.on('draw.delete', calculateRouteMetrics);
       mapInstance.on('draw.update', calculateRouteMetrics);
       mapInstance.on('draw.render', calculateRouteMetrics);
+
+      if ("geolocation" in navigator) {
+        setIsLocating(true);
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { longitude, latitude } = position.coords;
+            
+            // Add house marker
+            new mapboxgl.Marker({
+              element: createHouseElement(),
+              anchor: 'bottom'
+            })
+            .setLngLat([longitude, latitude])
+            .addTo(mapInstance);
+
+            mapInstance.flyTo({
+              center: [longitude, latitude],
+              zoom: 14,
+              duration: 2000
+            });
+
+            setTimeout(() => {
+              setIsLocating(false);
+            }, 2000);
+          },
+          (error) => {
+            console.error("Error getting user location:", error);
+            setIsLocating(false);
+          }
+        );
+      }
     });
-
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { longitude, latitude } = position.coords;
-          
-          // Add house marker
-          new mapboxgl.Marker({
-            element: createHouseElement(),
-            anchor: 'bottom'
-          })
-          .setLngLat([longitude, latitude])
-          .addTo(mapInstance);
-
-          mapInstance.flyTo({
-            center: [longitude, latitude],
-            zoom: 14
-          });
-        },
-        (error) => {
-          console.error("Error getting user location:", error);
-        }
-      );
-    }
 
     return () => {
       mapInstance.remove();
@@ -177,6 +185,15 @@ export default function Map({ onMetricsChange, onClearRoute }: MapProps) {
   return (
     <div className="relative w-full h-full overflow-hidden rounded-3xl md:rounded-r-3xl">
       <div ref={mapContainer} className="w-full h-full" />
+      
+      {isLocating && (
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20">
+          <div className="bg-white rounded-lg p-4 flex flex-col items-center space-y-3">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#FF5733]"></div>
+            <p className="text-gray-800 font-medium">Teleporting to your location...</p>
+          </div>
+        </div>
+      )}
       
       {metrics && (
         <div className="absolute top-4 left-4 bg-white p-3 rounded-lg shadow-md min-w-[200px] max-w-[90vw] md:max-w-none">
