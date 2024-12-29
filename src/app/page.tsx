@@ -69,7 +69,7 @@ export default function Home() {
 
   const handleTimeChange = (value: string, setter: (value: string) => void, max: number) => {
     const numericValue = value.replace(/\D/g, '').slice(0, 2);
-    if (numericValue === '' || (parseInt(numericValue) <= 99)) {
+    if (numericValue === '' || (parseInt(numericValue) <= max)) {
       setter(numericValue);
     }
   };
