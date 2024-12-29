@@ -69,7 +69,7 @@ export default function Home() {
 
   const handleTimeChange = (value: string, setter: (value: string) => void, max: number) => {
     const numericValue = value.replace(/\D/g, '').slice(0, 2);
-    if (numericValue === '' || (parseInt(numericValue) <= max)) {
+    if (numericValue === '' || (parseInt(numericValue) <= 99)) {
       setter(numericValue);
     }
   };
@@ -133,7 +133,7 @@ export default function Home() {
                         pattern="[0-9]*"
                         placeholder="HH"
                         value={hours}
-                        onChange={(e) => handleTimeChange(e.target.value, setHours, 23)}
+                        onChange={(e) => handleTimeChange(e.target.value, setHours, 99)}
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
                                  text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2
                                  focus:ring-[#FF5733] focus:border-transparent transition-all
@@ -148,7 +148,7 @@ export default function Home() {
                         pattern="[0-9]*"
                         placeholder="MM"
                         value={minutes}
-                        onChange={(e) => handleTimeChange(e.target.value, setMinutes, 59)}
+                        onChange={(e) => handleTimeChange(e.target.value, setMinutes, 99)}
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
                                  text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2
                                  focus:ring-[#FF5733] focus:border-transparent transition-all
@@ -163,7 +163,7 @@ export default function Home() {
                         pattern="[0-9]*"
                         placeholder="SS"
                         value={seconds}
-                        onChange={(e) => handleTimeChange(e.target.value, setSeconds, 59)}
+                        onChange={(e) => handleTimeChange(e.target.value, setSeconds, 99)}
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
                                  text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2
                                  focus:ring-[#FF5733] focus:border-transparent transition-all

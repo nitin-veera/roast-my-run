@@ -218,9 +218,9 @@ export default function Map({ onMetricsChange, onClearRoute }: MapProps) {
             </button>
           </div>
           <div className="space-y-2">
-            <p className="text-lg text-gray-500">
-              <span className="md:inline block">{(metrics.distance * 0.621371).toFixed(2)} miles</span>
-              <span className="text-sm text-gray-400 md:ml-2 block md:inline">
+            <p className="text-lg text-gray-500 flex flex-wrap items-baseline gap-2">
+              <span>{(metrics.distance * 0.621371).toFixed(2)} miles</span>
+              <span className="text-sm text-gray-400">
                 ({metrics.distance.toFixed(2)} km)
               </span>
             </p>
