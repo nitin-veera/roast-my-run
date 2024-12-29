@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Map from '@/components/Map';
 
 interface RouteMetrics {
@@ -12,6 +12,9 @@ export default function Home() {
   const [roast, setRoast] = useState<string | null>(null);
   const [isGeneratingRoast, setIsGeneratingRoast] = useState(false);
   const [duration, setDuration] = useState<string>('');
+  const [hours, setHours] = useState<string>('');
+  const [minutes, setMinutes] = useState<string>('');
+  const [seconds, setSeconds] = useState<string>('');
 
   const generateRoast = async () => {
     if (!metrics) return;
@@ -51,9 +54,17 @@ export default function Home() {
     }
   };
 
-  const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDuration(e.target.value);
+  const handleTimeChange = (value: string, setter: (value: string) => void, max: number) => {
+    const numericValue = value.replace(/\D/g, '').slice(0, 2);
+    if (numericValue === '' || (parseInt(numericValue) <= max)) {
+      setter(numericValue);
+    }
   };
+
+  useEffect(() => {
+    const formattedDuration = `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}:${seconds.padStart(2, '0')}`;
+    setDuration(formattedDuration);
+  }, [hours, minutes, seconds]);
 
   return (
     <div className="relative h-screen overflow-hidden bg-zinc-800">
@@ -94,18 +105,46 @@ export default function Home() {
                          className="block text-sm font-medium mb-2 text-white">
                     Run Duration (optional)
                   </label>
-                  <input
-                    type="text"
-                    id="runDuration"
-                    value={duration}
-                    onChange={handleDurationChange}
-                    pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
-                             text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2
-                             focus:ring-[#FF5733] focus:border-transparent transition-all
-                             duration-200 hover:bg-gray-100"
-                    placeholder="HH:MM:SS"
-                  />
+                  <div className="flex gap-2">
+                    <div className="flex-1">
+                      <input
+                        type="text"
+                        placeholder="HH"
+                        value={hours}
+                        onChange={(e) => handleTimeChange(e.target.value, setHours, 23)}
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
+                                 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2
+                                 focus:ring-[#FF5733] focus:border-transparent transition-all
+                                 duration-200 hover:bg-gray-100 text-center"
+                      />
+                    </div>
+                    <span className="text-white text-2xl self-center">:</span>
+                    <div className="flex-1">
+                      <input
+                        type="text"
+                        placeholder="MM"
+                        value={minutes}
+                        onChange={(e) => handleTimeChange(e.target.value, setMinutes, 59)}
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
+                                 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2
+                                 focus:ring-[#FF5733] focus:border-transparent transition-all
+                                 duration-200 hover:bg-gray-100 text-center"
+                      />
+                    </div>
+                    <span className="text-white text-2xl self-center">:</span>
+                    <div className="flex-1">
+                      <input
+                        type="text"
+                        placeholder="SS"
+                        value={seconds}
+                        onChange={(e) => handleTimeChange(e.target.value, setSeconds, 59)}
+                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
+                                 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2
+                                 focus:ring-[#FF5733] focus:border-transparent transition-all
+                                 duration-200 hover:bg-gray-100 text-center"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <button
                   onClick={generateRoast}
