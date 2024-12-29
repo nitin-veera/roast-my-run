@@ -71,17 +71,16 @@ export default function Home() {
   };
 
   return (
-    <div className="relative h-screen overflow-hidden bg-zinc-800">
-      {/* Fixed Map Container */}
-      <div className="fixed w-full md:w-2/3 h-[60vh] md:h-screen">
+    <div className="relative h-[100dvh] bg-zinc-800">
+      <div className="absolute top-0 w-full md:w-2/3 h-[50dvh] md:h-screen z-10">
         <Map 
           onMetricsChange={setMetrics} 
           onClearRoute={handleClearRoute}
         />
       </div>
 
-      {/* Scrollable Content Container */}
-      <div className="absolute w-full md:w-1/3 h-[40vh] md:h-screen top-[60vh] md:top-0 md:right-0 overflow-y-auto">
+      <div className="fixed md:absolute w-full md:w-1/3 h-[50dvh] md:h-screen top-[50dvh] md:top-0 md:right-0 
+                      overflow-y-auto overscroll-contain z-0 bg-zinc-800">
         <div className="w-full flex flex-col">
           <header className="pt-4 md:pt-8 px-4 md:px-8 relative overflow-hidden">
             <div className="relative">
