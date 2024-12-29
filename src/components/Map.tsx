@@ -36,6 +36,7 @@ export default function Map({ onMetricsChange }: MapProps) {
   const map = useRef<mapboxgl.Map | null>(null);
   const draw = useRef<MapboxDraw | null>(null);
   const [metrics, setMetrics] = useState<RouteMetrics | null>(null);
+  const isChangingMode = useRef(false);
 
   const calculateRouteMetrics = useCallback(() => {
     const data = draw.current?.getAll() as DrawFeatureCollection | undefined;
@@ -120,7 +121,16 @@ export default function Map({ onMetricsChange }: MapProps) {
         modes: {
           ...MapboxDraw.modes,
           simple_select: {
-            ...MapboxDraw.modes.simple_select
+            ...MapboxDraw.modes.simple_select,
+            onStop: function() {
+              if (!isChangingMode.current) {
+                isChangingMode.current = true;
+                drawInstance.changeMode('draw_line_string');
+                setTimeout(() => {
+                  isChangingMode.current = false;
+                }, 100);
+              }
+            }
           }
         }
       });
@@ -173,8 +183,15 @@ export default function Map({ onMetricsChange }: MapProps) {
             <h3 className="text-sm text-gray-500 font-semibold">Route Metrics</h3>
             <button
               onClick={() => {
-                draw.current?.deleteAll();
-                calculateRouteMetrics();
+                if (!isChangingMode.current) {
+                  isChangingMode.current = true;
+                  draw.current?.deleteAll();
+                  draw.current?.changeMode('draw_line_string');
+                  calculateRouteMetrics();
+                  setTimeout(() => {
+                    isChangingMode.current = false;
+                  }, 100);
+                }
               }}
               className="text-sm text-gray-400 hover:text-gray-200 transition-colors"
             >
