@@ -24,10 +24,13 @@ export default function Home() {
     setIsGeneratingRoast(true);
     const distanceInMiles = (metrics.distance * 0.621371).toFixed(2);
     
+    // Only include duration if all time fields have values
+    const hasDuration = hours !== '' || minutes !== '' || seconds !== '';
+    
     console.log('Sending request with:', {
       distance: parseFloat(distanceInMiles),
       unit: 'miles',
-      duration: duration || undefined
+      duration: hasDuration ? duration : undefined
     });
 
     try {
@@ -39,7 +42,7 @@ export default function Home() {
         body: JSON.stringify({
           distance: parseFloat(distanceInMiles),
           unit: 'miles',
-          ...(duration && { duration }) // Only include duration if it exists
+          ...(hasDuration && { duration }) // Only include duration if time fields are filled
         }),
       });
 
